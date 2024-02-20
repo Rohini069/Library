@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+        body{
+            font-family: 'Montserrat';
+            background-color:rgb(184, 156, 124);
+            margin: 0 ;
+            
+        }
+        .container{
+            background-color: rgb(217, 224, 230);
+            max-width: 800px;
+            margin: 20px auto ;
+            padding: 20px; 
+            border-radius: 8px;
+        }
+        h1{
+            text-align: center;
+        }
+        input{
+            margin: 5px;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid black;
+            background-color:azure;
+        }
+        button{
+            padding: 10px;
+            border-radius: 15px;
+            background-color: #32c888;
+            color: aliceblue;
+            margin: 5px;   
+        }
+        button:hover {
+            background-color: #0b270d;
+        }
+        #booksList{
+            border-radius: 8px;
+            background-color:azure;
+            margin: 4px;
+            padding: 10px;
+        }
+        .book {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            background-color: #e5adad;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><u>Library Management System</u></h1>
+        <div id="form">
+            <input type="text" id="title" placeholder="Title">
+            <input type="text" id="author" placeholder="Author">
+            <input type="number" id="pages" placeholder="Pages">
+            <input type="text" id="genre" placeholder="Genre">
+
+            <button onclick="addBook()" id="btnbook">Add Book</button>
+            <div id="search">
+                <input type="text" id="searchInput" placeholder="Search by Title">
+                <button onclick="searchBooks()" id="searchbtn">Search</button>
+            </div>
+        </div>
+        <div id="booksList">     
+        </div>
+    </div>
+    <script>
+        
+        let library=[];
+
+        function addBook(){
+            let title = document.getElementById('title').value;
+            let author = document.getElementById('author').value;
+            let pages = document.getElementById('pages').value;
+            let genre = document.getElementById('genre').value;
+
+            if(title && author && pages && genre){
+                let book={
+                    title:title,
+                    author:author,
+                    pages:pages,
+                    genre:genre
+                };
+                library.push(book);
+                displayBook();
+            }
+            else{
+                alert('Please fill all the details');
+            }
+        }
+        
+        function searchBooks(){
+            let searchTitle = document.getElementById('searchInput').value.toLowerCase();
+            let searchResult = library.filter(book=>book.title.toLowerCase().includes(searchTitle));
+            displayBook(searchResult);
+
+        }
+        function displayBook(books=library)
+        {
+            let booksList = document.getElementById('booksList');
+            booksList.innerHTML = '';
+
+            books.forEach(book=>
+            {
+                let bookdiv = document.createElement('div');
+                bookdiv.classList.add('book');
+                bookdiv.innerHTML = `
+                <h3>${book.title}</h3>
+                <p>Author: ${book.author}</p>
+                <p>Pages: ${book.pages}</p>
+                <p>Genre: ${book.genre}</p>
+                `;
+                booksList.appendChild(bookdiv);
+            });
+        }
+        
+    </script>
+</body>
+</html>
